@@ -27,7 +27,6 @@ function Location() {
       actionType: 'LoadingUserCoords',
     });
     const geo = navigator.geolocation;
-    console.log('navigator', navigator);
     if (!geo) {
       dispatch({
         actionType: 'SetLocationError',
@@ -44,7 +43,7 @@ function Location() {
   return (
     <div className="text-center">
       <h1 className="mb-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-        Electricity in your region
+        Current electricity in your region
       </h1>
       <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">
         <Message />
@@ -54,7 +53,7 @@ function Location() {
 }
 
 const Message = () => {
-  const { state } = useAppContext();
+  const { state, carbonQuery } = useAppContext();
   const { isLoadingUserCoords, latitude, longitude, locationError } = state;
 
   if (isLoadingUserCoords) {
@@ -62,7 +61,15 @@ const Message = () => {
       <span className={'animate-pulse'}>We are getting your location...</span>
     );
   } else if (longitude && latitude) {
-    return `Your coords are: ${state.longitude}, ${state.latitude}`;
+    return (
+      <>
+        {' '}
+        <div>{`Your coords are: ${state.longitude}, ${state.latitude}`}</div>
+        {carbonQuery && carbonQuery.data ? (
+          <div> Zone: {carbonQuery.data.zone}</div>
+        ) : null}
+      </>
+    );
   } else if (locationError) {
     return locationError;
   } else {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLiveCarbonIntensity } from './useLiveCarbonIntensity';
+import { useLivePowerConsumptionBreakdown } from './useLivePowerConsumptionBreakdown';
 
 let initialState = {
   latitude: undefined,
@@ -12,6 +13,7 @@ const AppContext = React.createContext({
   state: initialState,
   dispatch: () => undefined,
   carbonQuery: undefined,
+  powerConsumptionQuery: undefined,
 });
 
 function reducer(state, action) {
@@ -51,8 +53,15 @@ const AppProvider = ({ children }) => {
     longitude: state.longitude,
   });
 
+  const powerConsumptionQuery = useLivePowerConsumptionBreakdown({
+    latitude: state.latitude,
+    longitude: state.longitude,
+  });
+
   return (
-    <AppContext.Provider value={{ state, dispatch, carbonQuery }}>
+    <AppContext.Provider
+      value={{ state, dispatch, carbonQuery, powerConsumptionQuery }}
+    >
       {children}
     </AppContext.Provider>
   );

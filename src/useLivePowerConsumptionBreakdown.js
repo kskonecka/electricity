@@ -1,7 +1,8 @@
 import { useQuery } from 'react-query';
 
-export function useLiveCarbonIntensity({ latitude, longitude }) {
-  const urlRoot = 'https://api.electricitymap.org/v3/carbon-intensity/latest';
+export function useLivePowerConsumptionBreakdown({ latitude, longitude }) {
+  const urlRoot =
+    'https://api.electricitymap.org/v3/power-consumption-breakdown/latest';
 
   return useQuery([urlRoot, latitude, longitude], async () => {
     if (!latitude || !longitude) return;
