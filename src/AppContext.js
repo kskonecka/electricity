@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLiveCarbonIntensity } from './useLiveCarbonIntensity';
 
 let initialState = {
   latitude: undefined,
@@ -10,6 +11,7 @@ let initialState = {
 const AppContext = React.createContext({
   state: initialState,
   dispatch: () => undefined,
+  carbonQuery: undefined,
 });
 
 function reducer(state, action) {
@@ -22,7 +24,6 @@ function reducer(state, action) {
       };
     }
     case 'GetUserCoords':
-      console.log('holaaaa');
       return {
         ...state,
         latitude: action.payload.latitude,
@@ -45,8 +46,13 @@ function reducer(state, action) {
 const AppProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
+  const carbonQuery = useLiveCarbonIntensity({
+    latitude: state.latitude,
+    longitude: state.longitude,
+  });
+
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
+    <AppContext.Provider value={{ state, dispatch, carbonQuery }}>
       {children}
     </AppContext.Provider>
   );
