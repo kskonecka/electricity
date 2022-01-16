@@ -1,17 +1,14 @@
-# Getting Started with Create React App
+A simple React web app that showcases how clean the electricity is right now in your region. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
+Created with create-react-app, tailwind.css, react-chartjs and electricitymap API.
 
 In the project directory, you can run:
 
+### `npm install`
 ### `npm start`
 
-Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Remember to enable browser location :)
 
-
+<img width="447" alt="Screenshot 2022-01-16 at 23 21 09" src="https://user-images.githubusercontent.com/17528549/149680580-9b03c0ff-adae-40f6-8a30-8e1ec17f4b7c.png">
