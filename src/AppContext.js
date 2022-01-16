@@ -1,7 +1,7 @@
 import React from 'react';
-import { useLiveCarbonIntensity } from './useLiveCarbonIntensity';
-import { useLivePowerConsumptionBreakdown } from './useLivePowerConsumptionBreakdown';
-import { useGetZones } from './useGetZones';
+import { useLiveCarbonIntensity } from './api/hooks/useLiveCarbonIntensity';
+import { useLivePowerConsumptionBreakdown } from './api/hooks/useLivePowerConsumptionBreakdown';
+import { useGetZones } from './api/hooks/useGetZones';
 
 let initialState = {
   latitude: undefined,
@@ -15,6 +15,7 @@ const AppContext = React.createContext({
   dispatch: () => undefined,
   carbonQuery: undefined,
   powerConsumptionQuery: undefined,
+  zonesQuery: undefined,
 });
 
 function reducer(state, action) {

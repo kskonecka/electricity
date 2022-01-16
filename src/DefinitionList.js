@@ -34,7 +34,7 @@ const Loader = () => (
 );
 
 function DefinitionList() {
-  const { carbonQuery, powerConsumptionQuery } = useAppContext();
+  const { carbonQuery, powerConsumptionQuery, zonesQuery } = useAppContext();
   const { data: carbonData, isLoading: isLoadingCarbon } = carbonQuery;
   const { data: powerData, isLoading: isLoadingConsumption } =
     powerConsumptionQuery;
@@ -42,7 +42,7 @@ function DefinitionList() {
   if (isLoadingConsumption || isLoadingCarbon) {
     return <Loader />;
   }
-  if (!carbonData || !powerData) {
+  if (!carbonData || !powerData || !zonesQuery?.data) {
     return null;
   }
   return (
