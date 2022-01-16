@@ -57,8 +57,8 @@ const Message = () => {
 
   const zone = React.useMemo(() => {
     if (!zonesQuery?.data || !carbonQuery?.data) return undefined;
-    const zoneCode = carbonQuery?.data?.zone;
 
+    const zoneCode = carbonQuery?.data?.zone;
     return zonesQuery?.data[zoneCode];
   }, [carbonQuery, zonesQuery?.data]);
 

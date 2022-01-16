@@ -8,12 +8,41 @@ const formatDateTime = (date) => {
   return new Date(date).toLocaleString();
 };
 
+const Loader = () => (
+  <div className={'flex mt-4 justify-center'}>
+    <svg
+      className="-ml-1 animate-spin h-5 mr-3 text-indigo-600 w-5"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx={12}
+        cy={12}
+        r={10}
+        stroke="currentColor"
+        strokeWidth={4}
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      />
+    </svg>
+  </div>
+);
+
 function DefinitionList() {
   const { carbonQuery, powerConsumptionQuery } = useAppContext();
-  const { data: carbonData } = carbonQuery;
-  const { data: powerData, isLoading } = powerConsumptionQuery;
+  const { data: carbonData, isLoading: isLoadingCarbon } = carbonQuery;
+  const { data: powerData, isLoading: isLoadingConsumption } =
+    powerConsumptionQuery;
 
-  if (isLoading || !powerData || !carbonData) {
+  if (isLoadingConsumption || isLoadingCarbon) {
+    return <Loader />;
+  }
+  if (!carbonData || !powerData) {
     return null;
   }
   return (
@@ -28,7 +57,7 @@ function DefinitionList() {
         <dl>
           <DataRow
             title={'Carbon Intensity'}
-            value={carbonData && carbonData.carbonIntensity}
+            value={carbonData?.carbonIntensity}
             unit={'gCO2eq/kWh'}
           />
         </dl>
@@ -42,73 +71,73 @@ function DefinitionList() {
           <dl>
             <DataRow
               title={'Power Consumption Total'}
-              value={powerData.powerConsumptionTotal}
+              value={powerData?.powerConsumptionTotal}
               unit={'MW'}
             />
             <DataRow
               title={'Biomass'}
-              value={powerData.powerConsumptionBreakdown.biomass}
+              value={powerData?.powerConsumptionBreakdown?.biomass}
               unit={'MW'}
               light
             />
             <DataRow
               title={'Coal'}
-              value={powerData.powerConsumptionBreakdown.coal}
+              value={powerData?.powerConsumptionBreakdown?.coal}
               unit={'MW'}
             />
             <DataRow
               title={'Gas'}
-              value={powerData.powerConsumptionBreakdown.gas}
+              value={powerData?.powerConsumptionBreakdown?.gas}
               unit={'MW'}
               light
             />
             <DataRow
               title={'Geothermal'}
-              value={powerData.powerConsumptionBreakdown.geothermal}
+              value={powerData?.powerConsumptionBreakdown?.geothermal}
               unit={'MW'}
             />
             <DataRow
               title={'Hydro'}
-              value={powerData.powerConsumptionBreakdown.hydro}
+              value={powerData?.powerConsumptionBreakdown?.hydro}
               unit={'MW'}
               light
             />
             <DataRow
               title={'Nuclear'}
-              value={powerData.powerConsumptionBreakdown.nuclear}
+              value={powerData?.powerConsumptionBreakdown?.nuclear}
               unit={'MW'}
             />
             <DataRow
               title={'Oil'}
-              value={powerData.powerConsumptionBreakdown.oil}
+              value={powerData?.powerConsumptionBreakdown?.oil}
               unit={'MW'}
               light
             />
             <DataRow
               title={'Solar'}
-              value={powerData.powerConsumptionBreakdown.solar}
+              value={powerData?.powerConsumptionBreakdown?.solar}
               unit={'MW'}
             />
             <DataRow
               title={'Wind'}
-              value={powerData.powerConsumptionBreakdown.wind}
+              value={powerData?.powerConsumptionBreakdown?.wind}
               unit={'MW'}
               light
             />
             <DataRow
               title={'Unknown'}
-              value={powerData.powerConsumptionBreakdown.unknown}
+              value={powerData?.powerConsumptionBreakdown?.unknown}
               unit={'MW'}
             />
             <DataRow
               title={'Renewable %'}
-              value={powerData.renewablePercentage}
+              value={powerData?.renewablePercentage}
               unit={'%'}
               light
             />
             <DataRow
               title={'Fossil Free %'}
-              value={powerData.fossilFreePercentage}
+              value={powerData?.fossilFreePercentage}
               unit={'%'}
             />
           </dl>

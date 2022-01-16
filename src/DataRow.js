@@ -1,6 +1,5 @@
 import React from 'react';
 
-// eslint-disable-next-line react/prop-types
 function DataRow({ title, value, unit = '', light = false }) {
   const valueWithUnit = `${value} ${unit}`;
   return (
@@ -11,7 +10,7 @@ function DataRow({ title, value, unit = '', light = false }) {
     >
       <dt className="text-sm font-medium text-gray-500">{title}</dt>
       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        {valueWithUnit}
+        {value >= 0 ? valueWithUnit : ''}
       </dd>
     </div>
   );

@@ -45,7 +45,6 @@ function reducer(state, action) {
   }
 }
 
-// eslint-disable-next-line react/prop-types
 const AppProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
