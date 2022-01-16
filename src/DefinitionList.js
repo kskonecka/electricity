@@ -2,20 +2,27 @@ import React from 'react';
 import DataRow from './DataRow';
 import { useAppContext } from './AppContext';
 
+const formatDateTime = (date) => {
+  if (!date) return '';
+
+  return new Date(date).toLocaleString();
+};
+
 function DefinitionList() {
   const { carbonQuery, powerConsumptionQuery } = useAppContext();
   const { data: carbonData } = carbonQuery;
   const { data: powerData, isLoading } = powerConsumptionQuery;
 
-  if (isLoading || !powerData) {
+  if (isLoading || !powerData || !carbonData) {
     return null;
   }
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-      <div className="px-4 py-5 sm:px-6">
+      <div className="px-4 py-5 sm:px-6 flex justify-between">
         <h3 className="text-lg leading-6 font-medium text-gray-900">
           Carbon Intensity
         </h3>
+        <div>updated at: {formatDateTime(carbonData?.updatedAt)}</div>
       </div>
       <div className="border-t border-gray-200">
         <dl>
@@ -25,10 +32,11 @@ function DefinitionList() {
             unit={'gCO2eq/kWh'}
           />
         </dl>
-        <div className="px-4 py-5 sm:px-6">
+        <div className="px-4 py-5 sm:px-6 flex justify-between">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
             Power Consumption Breakdown
           </h3>
+          <div>updated at: {formatDateTime(powerData?.updatedAt)}</div>
         </div>
         <div className="border-t border-gray-200">
           <dl>

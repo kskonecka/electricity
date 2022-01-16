@@ -4,7 +4,7 @@ import { useAppContext } from './AppContext';
 function Location() {
   const { dispatch } = useAppContext();
 
-  const onChange = ({ coords }) => {
+  const onSuccess = ({ coords }) => {
     dispatch({
       actionType: 'GetUserCoords',
       payload: {
@@ -36,8 +36,7 @@ function Location() {
       });
       return;
     }
-    const watcher = geo.watchPosition(onChange, onError);
-    return () => geo.clearWatch(watcher);
+    geo.getCurrentPosition(onSuccess, onError);
   }, []);
 
   return (
@@ -53,23 +52,24 @@ function Location() {
 }
 
 const Message = () => {
-  const { state, carbonQuery } = useAppContext();
+  const { state, carbonQuery, zonesQuery } = useAppContext();
   const { isLoadingUserCoords, latitude, longitude, locationError } = state;
+
+  const zone = React.useMemo(() => {
+    if (!zonesQuery?.data || !carbonQuery?.data) return undefined;
+    const zoneCode = carbonQuery?.data?.zone;
+
+    return zonesQuery?.data[zoneCode];
+  }, [carbonQuery, zonesQuery?.data]);
 
   if (isLoadingUserCoords) {
     return (
       <span className={'animate-pulse'}>We are getting your location...</span>
     );
   } else if (longitude && latitude) {
-    return (
-      <>
-        {' '}
-        <div>{`Your coords are: ${state.longitude}, ${state.latitude}`}</div>
-        {carbonQuery && carbonQuery.data ? (
-          <div> Zone: {carbonQuery.data.zone}</div>
-        ) : null}
-      </>
-    );
+    return carbonQuery?.data
+      ? `Zone: ${zone?.zoneName || carbonQuery?.data?.zone}`
+      : null;
   } else if (locationError) {
     return locationError;
   } else {

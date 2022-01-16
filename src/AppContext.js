@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLiveCarbonIntensity } from './useLiveCarbonIntensity';
 import { useLivePowerConsumptionBreakdown } from './useLivePowerConsumptionBreakdown';
+import { useGetZones } from './useGetZones';
 
 let initialState = {
   latitude: undefined,
@@ -48,6 +49,8 @@ function reducer(state, action) {
 const AppProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
+  const zonesQuery = useGetZones();
+
   const carbonQuery = useLiveCarbonIntensity({
     latitude: state.latitude,
     longitude: state.longitude,
@@ -60,7 +63,13 @@ const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ state, dispatch, carbonQuery, powerConsumptionQuery }}
+      value={{
+        state,
+        dispatch,
+        carbonQuery,
+        powerConsumptionQuery,
+        zonesQuery,
+      }}
     >
       {children}
     </AppContext.Provider>
